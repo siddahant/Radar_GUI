@@ -1,1 +1,4 @@
 python 
+tkinter
+matplotlib
+pandas
