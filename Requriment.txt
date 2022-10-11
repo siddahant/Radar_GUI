@@ -2,3 +2,6 @@ python
 tkinter
 matplotlib
 pandas
+scipy
+scikit-learn
+collections
