@@ -46,3 +46,69 @@ def filter(df,filter_Name,min_val="", max_val=""):
 
   return df[(df[filters[filter_Name]] >= float(min_val)) & (df[filters[filter_Name]] <= float(max_val))]
 
+
+
+
+def sep_algo(filter_data,eps_value,test):
+    timestamp = filter_data.timestamps.unique()
+    sepration_angle = []
+    l_target_rcs = [] 
+    r_target_rcs = []
+    center_pos_rcs =[]
+    r_point=[]
+    l_point=[]
+    c_point=[]
+    n_clusters_list=[]
+    n_noise_list=[]
+    color_list=[]
+    if test=="Azimuth":
+      col_variable=['x','y']
+    else :
+      col_variable=['x','z']
+
+    for i in timestamp:
+        frame = filter_data[filter_data['timestamps']== i]
+        dbscan_data=frame[col_variable].values.astype('float32',copy=False)
+        model = DBSCAN(eps=eps_value, min_samples=2, metric='euclidean').fit(dbscan_data)
+        labels=model.labels_
+        color_list.extend(labels)
+
+        # Number of clusters in labels, ignoring noise if present.
+        n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+        n_clusters_list.append(n_clusters_)
+        n_noise_list.append( list(labels).count(-1))
+
+        if n_clusters_ >= 2:
+            target_1=frame[model.labels_ == 0]
+            target_2=frame[model.labels_ == 1]
+
+            if target_1[test].mean()<target_2[test].mean():
+                l_target = target_1
+                r_target = target_2
+            else:
+                l_target = target_2
+                r_target = target_1
+
+            c_point.append(0)
+            sepration_angle.append((abs(target_1[test].mean()-target_2[test].mean()))*180/np.pi)
+            
+            l_target_rcs.append(l_target['power'].mean())
+            r_target_rcs.append(r_target['power'].mean())
+            l_point.append(len(l_target))
+            r_point.append(len(r_target))
+            
+        else:
+            target_c=frame[model.labels_ == 0]
+            sepration_angle.append(0)
+            center_pos_rcs.append(target_c['power'].mean())
+            l_point.append(0)
+            r_point.append(0)
+            c_point.append(len(target_c))
+    if len( center_pos_rcs)==0:
+       center_pos_rcs =[0]
+    if len( l_target_rcs )==0:
+      l_target_rcs = [0] 
+    if len( r_target_rcs )==0:
+      r_target_rcs = [0] 
+    return frame,labels,n_clusters_list,sepration_angle,timestamp,l_target_rcs,center_pos_rcs, r_target_rcs,l_point,r_point,c_point,color_list
+

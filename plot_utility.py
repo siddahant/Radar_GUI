@@ -18,15 +18,19 @@ def polar_view(theta, r, max_theta=360, min_theta=0,Color='r',Size=1):
   return fig
 
 
-def plot_bird_eye(df, lable = [], Color='r'):
-
+def plot_bird_eye(df, lable = [], Color='r',parameter=None):
   if type(Color)==str:
     if Color=='r':
       Color=df["rangerate"]
   fig, ax= plt.subplots(figsize=(3.8, 3))
-  scatter = ax.scatter(data=df, x='y', y='x', c=Color,s=2)
-  ax.set_ylabel("Y")
-  ax.set_xlabel("X")
+  if parameter==None:
+    scatter = ax.scatter(data=df, x='y', y='x', c=Color,s=2)
+    ax.set_ylabel("Y")
+    ax.set_xlabel("X")
+  else: 
+    scatter = ax.scatter(data=df, x=parameter[0], y=parameter[1], c=Color,s=2)
+    ax.set_ylabel(parameter[1])
+    ax.set_xlabel(parameter[0])
   ax.set_title("Bird Eye View")
   if len(lable)==0:
     cbar = fig.colorbar(scatter)
@@ -116,7 +120,7 @@ def plot_sep_info(timestamp,azimuth_sepration,n_clusters_list):
   ax2.plot(timestamp,n_clusters_list,c='r')
   ax1.set_ylabel('Sepration Angle')
   ax1.set_xlabel('Frame Number')
-  ax2.set_title('Number of Cluster')
+  ax2.set_ylabel('Number of Cluster')
   fig.tight_layout()
   return fig
 

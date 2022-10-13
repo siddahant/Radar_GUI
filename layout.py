@@ -54,7 +54,7 @@ y_filter_button = Button(root, text='Y Filter',
 z_filter_button = Button(root, text='Z Filter',
                              width=20, command=lambda: [apply_filter(z_max_entry, z_min_entry,'Z'),plot(root)], fg="blue")
 run_algo_button = Button(root, text='Run algo',
-                             width=20, command=lambda: [algo(root,eps_entery),selected_choice(variable)], fg="green")
+                             width=20, command=lambda: [algo(root,eps_entery,variable)], fg="green")
 
 Save_filter_data_button=Button(root,text='Save filter_data',
                             width=20, command=lambda:save_file(root), fg="blue")
@@ -110,7 +110,7 @@ eps_label = Label(root, text='eps Value',  font=my_font,width=10)
 ###############################################################################
 #                            dropdown                                         # 
 ###############################################################################
-option =  ["static test", "car test", "pedestrian test" ]
+option =  ["Azimuth", "Elevation", "Car test", "Pedestrian test"]
 variable = StringVar()
 variable.set(option[0])
 dropdown = OptionMenu(root, variable,*option)
