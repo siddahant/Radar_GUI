@@ -54,11 +54,17 @@ y_filter_button = Button(root, text='Y Filter',
 z_filter_button = Button(root, text='Z Filter',
                              width=20, command=lambda: [apply_filter(z_max_entry, z_min_entry,'Z'),plot(root)], fg="blue")
 run_algo_button = Button(root, text='Run algo',
-                             width=20, command=lambda: [algo(root,eps_entery,variable)], fg="green")
+                             width=20, command=lambda: [algo(root,variable,eps_entry,
+                                                                thershold_wall_button,
+                                                                thershold_wall_max_entery,
+                                                                thershold_wall_min_entery)], fg="green")
+
+thershold_wall_button   = Button(root, text='Thershold wall',
+                                    width=20, fg="green")
 
 Save_filter_data_button=Button(root,text='Save filter_data',
                             width=20, command=lambda:save_file(root), fg="blue")
-    
+   
 
 ###############################################################################
 #                               Entery                                        # 
@@ -92,7 +98,10 @@ y_min_entry = Entry(root, width=5)
 z_max_entry = Entry(root, width=5)
 z_min_entry = Entry(root, width=5)
 
-eps_entery = Entry(root, width=5)
+eps_entry = Entry(root, width=5)
+
+thershold_wall_max_entery = Entry(root, width=5)
+thershold_wall_min_entery = Entry(root, width=5)
 
 ###############################################################################
 #                               labels                                        # 
@@ -114,9 +123,8 @@ option =  ["Azimuth", "Elevation", "Car test", "Pedestrian test"]
 variable = StringVar()
 variable.set(option[0])
 dropdown = OptionMenu(root, variable,*option)
+                                
 dropdown.config(width=18)
-
-
 
 ###############################################################################
 #                            Locations                                        # 
@@ -169,16 +177,17 @@ z_min_entry.grid(row=11, column=1)
 z_max_entry.grid(row=11, column=2)
 
 reset_filter_button.grid(row=12,column=1,columnspan=2)
-
-run_algo_button.grid(row=13,column=0,columnspan=1)
-
-
 dropdown.grid(row=12,column=0,columnspan=1)
 
-eps_entery.grid(row=13,column=1)
-eps_label.grid(row=13,column=2)
+thershold_wall_max_entery.grid(row=13,column = 2)
+thershold_wall_min_entery.grid(row=13,column = 1)
+thershold_wall_button.grid(row=13,column =0)
+
+# eps_entery.grid(row=14,column=1)
+# eps_label.grid(row=14,column=0)
 
 Save_filter_data_button.grid(row=15,column=0)
+run_algo_button.grid(row=15,column=1,columnspan=2)
 
 ###############################################################################
 #                            fig frames                                       # 

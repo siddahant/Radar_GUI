@@ -36,9 +36,10 @@ def plot_bird_eye(df, lable = [], Color='r',parameter=None):
     cbar = fig.colorbar(scatter)
     cbar.set_label('Velocity')
   else:
-    ax.legend(handles=scatter.legend_elements()[0], 
-            labels=np.unique(lable).tolist(),
-            title="Classes")
+    # ax.legend(handles=scatter.legend_elements()[0], 
+    #         labels=np.unique(lable).tolist(),
+    #         title="Classes")
+    pass
   # plt.show()
   fig.tight_layout()
   return fig
@@ -113,14 +114,12 @@ def plot_point_stat(timestamp,l_point,r_point,c_point):
   fig.tight_layout()
   return fig
 
-def plot_sep_info(timestamp,azimuth_sepration,n_clusters_list):
+def plot_sep_info(timestamp,azimuth_sepration):
   fig, ax1= plt.subplots(figsize=(4, 3))
-  ax2=ax1.twinx()
   line=ax1.bar(timestamp,azimuth_sepration)
-  ax2.plot(timestamp,n_clusters_list,c='r')
+  # ax2.plot(timestamp,n_clusters_list,c='r')
   ax1.set_ylabel('Sepration Angle')
   ax1.set_xlabel('Frame Number')
-  ax2.set_ylabel('Number of Cluster')
   fig.tight_layout()
   return fig
 

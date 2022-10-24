@@ -51,6 +51,7 @@ def main_column(main_column_entry):
     print(main_data)
 
 
+
 def reset_filter():
     global filter_data
     filter_data = main_data.copy()
@@ -114,26 +115,50 @@ def plot(root):
     plt.close('all')
 
 
-def algo(root,eps_value,variable):
-    test=(variable.get())
-    if eps_value.get()=="":
-        eps_value=0.2
-    else:
-        eps_value = float(eps_value.get())
-    if test == "Azimuth" or test == "Elevation":
+def algo(root,variable,eps_entry=None, 
+        thershold_wall_button = None,
+        thershold_wall_max_entry=None,
+        thershold_wall_min_entry=None):
+    test = variable.get()
 
-        frame,labels,n_clusters_list,sepration_angle,timestamp,l_target_rcs,center_pos_rcs, r_target_rcs,l_point,r_point,c_point,color_list = sep_algo(filter_data,eps_value,test)
-        fig1=polar_view(filter_data[test],filter_data['range'], max_theta=70, min_theta=-70,Color=color_list)
+
+    if test == "Azimuth" or test == "Elevation":
+        # show_widgets(thershold_wall_max_entery,[13,2])
+        # show_widgets(thershold_wall_min_entery,[13,1])
+        # show_widgets(thershold_wall_button,[13,0])
+        parameter_column ="z"
+
+        if test == "Azimuth":
+            parameter_column ="y"
+
+        if thershold_wall_max_entry.get() == "":
+            thershold_wall_max = filter_data[parameter_column].mean() + 0.05
+        if thershold_wall_min_entry.get() == "":
+            thershold_wall_min = filter_data[parameter_column].mean() - 0.05
+
+        if thershold_wall_max_entry.get() !="" and thershold_wall_min_entry.get() !="":
+            if float(thershold_wall_max_entry.get())<float(thershold_wall_min_entry.get()):
+                thershold_wall_max_entry.config(fg= "red")
+                thershold_wall_min_entry.config(fg= "red")
+                return 0
+            thershold_wall_max_entry.config(fg= "black")
+            thershold_wall_min_entry.config(fg= "black") 
+            thershold_wall_min = float(thershold_wall_min_entry.get())
+            thershold_wall_max = float(thershold_wall_max_entry.get())
+
+        res = sep_algo(filter_data,test,thershold_wall_min, thershold_wall_max)
+        fig1=polar_view(filter_data[test],filter_data['range'], max_theta=70, min_theta=-70,Color=res["color_labels"])
         
         if test=='Elevation':
-            fig2=plot_bird_eye(frame, lable = labels, Color=labels,parameter=["x","z"])
+            fig2=plot_bird_eye(filter_data, lable = res["color_labels"], Color=res["color_labels"],parameter=["x","z"])
         else:
-            fig2=plot_bird_eye(frame, lable = labels, Color=labels)
+            fig2=plot_bird_eye(filter_data, lable = res["color_labels"],  Color=res["color_labels"])
 
-        fig4= plot_sep_info(timestamp,sepration_angle,n_clusters_list)
-        fig3 = plot_point_stat(timestamp,l_point,r_point,c_point)
+        fig4= plot_sep_info(res['timestamp'],res['sepration_angle'])
+        fig3 = plot_point_stat(res['timestamp'],res['left_point'],res['right_point'],res['mean_pose_point'])
+        sepration_angle =  [i for i in res['sepration_angle'] if i != 0]
         fig5=plot_prob_dens(sepration_angle,"Sepration Angle")
-        fig6= plot_violin([l_target_rcs,center_pos_rcs, r_target_rcs])
+        fig6= plot_violin([res['left_target_rcs'],res['mean_pose_rcs'],res['right_target_rcs']])
 
         # embedded fig on GUI
         canvas1 = FigureCanvasTkAgg(fig1,
@@ -174,6 +199,9 @@ def algo(root,eps_value,variable):
         plt.close('all')
     else:
         print("under development")
+        # hide_widgets(thershold_wall_max_entery,[13,2])
+        # hide_widgets(thershold_wall_min_entery,[13,1])
+        # hide_widgets(thershold_wall_button,[13,0])
 
 
 def selected_choice(test_name):
@@ -189,4 +217,13 @@ def save_file(root):
     file = filedialog.asksaveasfilename(
         filetypes=[("csv file", ".csv")],
     defaultextension=".csv")
-        
+
+# # Method to make entry box invisible
+# def hide_widgets(widgets,position):
+#     # This will remove the entry box
+#         widgets.grid_remove()
+  
+# # Method to make entry box visible
+# def show_widgets(widgets,position):
+#     # This will recover the entery box
+#     widgets.grid(row=position[0], column=position[1])
