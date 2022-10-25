@@ -1,7 +1,6 @@
-tkinter
+tk
 matplotlib
 pandas
 scipy
 scikit-learn
-collections
 numpy
