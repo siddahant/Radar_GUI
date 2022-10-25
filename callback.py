@@ -25,13 +25,14 @@ def upload_file(label=None):
 
 
 def main_column(main_column_entry):
-    '''The inputs are the number seprated by ',' conatin orignal data frame coloumn in order to
-    [timestamp, Azimuth, Elevation, range, rangerate, power ]
+    '''The inputs are the number separated by ',' contain original data frame column in order to
+       [timestamp, Azimuth, Elevation, range, rangerate, power ]
 
-    example: orignal data frame coloum name -> [timestamp, Elevation, Azimuth, rangerate, power, range, x, y, z]
-    input would be 1,3,2,6,4,5
+       example: original data frame column name -> [timestamp, Elevation, Azimuth, rangerate, power, range, x, y, z]
+       input would be 1,3,2,6,4,5
 
-    This help to rearrange the coloumn and remove the extra coloumn 
+
+    This help to rearrange the column and remove the extra column 
     We needed this arrangement because the data columns differ from company to company.
     '''
     col_number = main_column_entry.get().split(",")
@@ -83,7 +84,7 @@ def apply_filter(max_val, min_val, filter_Name):
 
 
 def plot(root):
-    ''' This method plot all the informative graph on the main GUI screen'''
+    ''' This method plot all the graph on the main GUI screen'''
 
     fig = polar_view(
         filter_data['Azimuth'], filter_data['range'], max_theta=70, min_theta=-70)
