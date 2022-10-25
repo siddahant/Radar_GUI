@@ -84,7 +84,7 @@ def apply_filter(max_val, min_val, filter_Name):
 
 
 def plot(root):
-    ''' This method plot all the graph on the main GUI screen'''
+    ''' This method plot all the graphs (filter data) on the main GUI screen'''
 
     fig = polar_view(
         filter_data['Azimuth'], filter_data['range'], max_theta=70, min_theta=-70)
@@ -126,6 +126,7 @@ def plot(root):
 
 def algo(root, variable, eps_entry=None, thershold_wall_max_entry=None,
          thershold_wall_min_entry=None):
+    '''Main Algo section'''
 
     test = variable.get()
     if test == "Azimuth" or test == "Elevation":
@@ -149,9 +150,11 @@ def algo(root, variable, eps_entry=None, thershold_wall_max_entry=None,
             thershold_wall_min = float(thershold_wall_min_entry.get())
             thershold_wall_max = float(thershold_wall_max_entry.get())
         
-
+        # sepration
         res = sep_algo(filter_data, test, thershold_wall_min,
                        thershold_wall_max, eps_entry)
+        
+        #-------------------------------Plot Graphs---------------------------------------------------#
 
         fig1 = polar_view(filter_data[test], filter_data['range'],
                           max_theta=70, min_theta=-70, Color=res["color_labels"])
@@ -163,12 +166,12 @@ def algo(root, variable, eps_entry=None, thershold_wall_max_entry=None,
             fig2 = plot_bird_eye(
                 filter_data, lable=res["color_labels"],  Color=res["color_labels"])
 
-        fig4 = plot_sep_info(res['timestamp'], res['sepration_angle'])
+        fig4 = plot_sep_info(res['timestamp'], res['separation_angle'])
         fig3 = plot_point_stat(res['timestamp'], res['left_point'], res['right_point'], res['mean_pose_point'])
-        sepration_angle = [i for i in res['sepration_angle'] if i != 0]
-        fig5 = plot_prob_dens(sepration_angle, "Sepration Angle")
+        separation_angle = [i for i in res['separation_angle'] if i != 0]
+        fig5 = plot_prob_dens(separation_angle, "separation Angle")
         fig6 = plot_violin([res['left_target_rcs'], res['mean_pose_rcs'], res['right_target_rcs']])
-        fig7 = plot_sepration_percentage_info(res['percentage'])
+        fig7 = plot_separation_percentage_info(res['percentage'])
 
         # embedded fig on GUI
         canvas1 = FigureCanvasTkAgg(fig1,master=root)                                  

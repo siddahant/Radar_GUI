@@ -1,2 +1,3 @@
 from layout import *
-root.mainloop() 
+# running in loop
+root.mainloop()  

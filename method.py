@@ -25,6 +25,8 @@ def isdeg(angle):
 
 
 def filter(df, filter_Name, min_val="", max_val=""):
+    '''apply filter in given thershold value'''
+
     filters = {"A": "Azimuth",
                "E": "Elevation",
                "V": "rangerate",
@@ -49,24 +51,25 @@ def filter(df, filter_Name, min_val="", max_val=""):
     return df[(df[filters[filter_Name]] >= float(min_val)) & (df[filters[filter_Name]] <= float(max_val))]
 
 
-def get_sepration_info(targets):
-    sepration_list = []
+def get_separation_info(targets):
+    '''return the separation percentage'''
+    separation_list = []
     for i in targets:
         if len(i) == 3:
-            sepration_list.append("p")
+            separation_list.append("p")
         elif len(i) == 1:
             if "l" in i or "r" in i:
-                sepration_list.append("b")
+                separation_list.append("b")
             else:
-                sepration_list.append("m")
+                separation_list.append("m")
         elif ("l" in i) and ("r" in i):
-            sepration_list.append("s")
-    sepration_percentage = (sepration_list.count('s')/len(sepration_list))*100
-    blink_percentage = (sepration_list.count('b')/len(sepration_list))*100
-    mean_pose_percentage = (sepration_list.count('m')/len(sepration_list))*100
+            separation_list.append("s")
+    separation_percentage = (separation_list.count('s')/len(separation_list))*100
+    blink_percentage = (separation_list.count('b')/len(separation_list))*100
+    mean_pose_percentage = (separation_list.count('m')/len(separation_list))*100
     partial_sepration_percentage = (
-        sepration_list.count('p')/len(sepration_list))*100
-    percentage = {"separated": sepration_percentage,
+        separation_list.count('p')/len(separation_list))*100
+    percentage = {"separated": separation_percentage,
                   "blink": blink_percentage,
                   "mean_pose": mean_pose_percentage,
                   "partial sepration": partial_sepration_percentage}
@@ -137,7 +140,7 @@ def sep_algo(filter_data, test, thershold_wall_min, thershold_wall_max,eps_entry
     right_point = []
     left_point = []
     mean_pose_point = []
-    sepration_angle = []
+    separation_angle = []
     targets = []
     color_labels = []
     for i in timestamp:
@@ -177,10 +180,10 @@ def sep_algo(filter_data, test, thershold_wall_min, thershold_wall_max,eps_entry
             left_point.append(0)
 
         if len(left_target_labels) != 0 and (len(right_target_labels) != 0):
-            sepration_angle.append((abs(left_target_data['Azimuth'].mean(
-            )-right_target_data['Azimuth'].mean()))*180/np.pi)
+            separation_angle.append((abs(left_target_data[test].mean(
+            )-right_target_data[test].mean()))*180/np.pi)
         else:
-            sepration_angle.append(0)
+            separation_angle.append(0)
 
         mean_pose_data = frame[frame['labels'] == 'c']
         mean_pose_labels = run_dbscan(mean_pose_data, test,eps_entry)
@@ -208,7 +211,7 @@ def sep_algo(filter_data, test, thershold_wall_min, thershold_wall_max,eps_entry
     if len(right_target_rcs) == 0:
         right_target_rcs = [0]
 
-    percentage = get_sepration_info(targets)
+    percentage = get_separation_info(targets)
     res = {"left_target_rcs": left_target_rcs,
            "right_target_rcs": right_target_rcs,
            "mean_pose_rcs": mean_pose_rcs,
@@ -217,6 +220,6 @@ def sep_algo(filter_data, test, thershold_wall_min, thershold_wall_max,eps_entry
            "mean_pose_point": mean_pose_point,
            "percentage": percentage,
            "timestamp": timestamp,
-           "sepration_angle": sepration_angle,
+           "separation_angle": separation_angle,
            "color_labels": color_labels}
     return res

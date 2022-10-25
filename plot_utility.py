@@ -137,7 +137,7 @@ def plot_violin(data):
     return fig
 
 
-def plot_sepration_percentage_info(Dict):
+def plot_separation_percentage_info(Dict):
     keys = Dict.keys()
     values = Dict.values()
     fig, ax = plt.subplots(figsize=(3.8, 3))
@@ -145,7 +145,7 @@ def plot_sepration_percentage_info(Dict):
            'blue', 'cyan'], edgecolor='black')
     y_pos = range(len(keys))
     ax.set_xticks(y_pos, keys, rotation=45)
-    ax.set_title("sepration percentage")
+    ax.set_title("separation percentage")
     ax.grid(True)
     ax.set_ylabel('Percentage')
     fig.tight_layout()
