@@ -58,19 +58,6 @@ run_algo_button = Button(root, text='Run',
                          width=20, command=lambda: [algo(root, variable, eps_entry,
                                                          thershold_wall_max_entery,
                                                          thershold_wall_min_entery)], fg="green")
-# drop_points_button = Button(root, text='Drop',
-#                             width=20, command=lambda: [drop_points(root, [frame_max_entry, frame_min_entry,
-#                                                                             azimuth_max_entry, azimuth_min_entry,
-#                                                                             elevation_max_entry, elevation_min_entry,
-#                                                                             vel_max_entry, vel_min_entry,
-#                                                                             range_max_entry, range_min_entry,
-#                                                                             power_max_entry, power_min_entry,
-#                                                                             x_max_entry, x_min_entry,
-#                                                                             y_max_entry, y_min_entry,
-#                                                                             z_max_entry, z_min_entry])], fg="green")
-# thershold_wall_button = Button(root, text='Thershold wall',
-#                                width=20, fg="green",state=DISABLED)
-
 
 Save_filter_data_button = Button(root, text='Save filter_data',
                                  width=20, command=lambda: save_file(root), fg="blue")

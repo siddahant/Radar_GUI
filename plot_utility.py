@@ -37,11 +37,8 @@ def plot_bird_eye(df, lable=[], Color='r', parameter=None):
         cbar = fig.colorbar(scatter)
         cbar.set_label('Velocity')
     else:
-        # ax.legend(handles=scatter.legend_elements()[0],
-        #         labels=np.unique(lable).tolist(),
-        #         title="Classes")
         pass
-    # plt.show()
+
     fig.tight_layout()
     ax.grid(True)
     return fig
@@ -52,9 +49,8 @@ def plot_prob_dens(data, x_lable):
     # Fit a normal distribution to
     # the data:
     # mean and standard deviation
-
     mu, std = norm.fit(data)
-
+    
     # Plot the histogram.
     fig, ax = plt.subplots(figsize=(3.8, 3))
     ax.hist(data, bins=25, density=True, alpha=0.6, color='b')
@@ -70,8 +66,7 @@ def plot_prob_dens(data, x_lable):
     ax.set_ylabel("probability density")
     ax.set_title(title)
     fig.tight_layout()
-
-    # plt.show()
+    
     return fig
 
 
@@ -86,7 +81,7 @@ def vel_plot(df):
     fig.tight_layout()
     ax.grid(True)
     return fig
-    # plt.show()
+  
 
 
 def plot3d(df):
@@ -108,7 +103,6 @@ def plot_point_stat(timestamp, l_point, r_point, c_point):
     ax.bar(timestamp, r_point, width, bottom=l_point,
            label='Right points', edgecolor='black')
     ax.bar(timestamp, c_point, width, label='Mean Pos points', edgecolor='black')
-
     ax.set_ylabel('Number of Points')
     ax.set_xlabel('Frame Number')
     ax.set_title('Angular separation point')
@@ -121,7 +115,6 @@ def plot_point_stat(timestamp, l_point, r_point, c_point):
 def plot_sep_info(timestamp, azimuth_sepration):
     fig, ax1 = plt.subplots(figsize=(4, 3))
     line = ax1.bar(timestamp, azimuth_sepration, edgecolor='black')
-    # ax2.plot(timestamp,n_clusters_list,c='r')
     ax1.set_ylabel('Sepration Angle')
     ax1.set_xlabel('Frame Number')
     fig.tight_layout()

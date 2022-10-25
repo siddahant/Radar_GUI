@@ -18,6 +18,7 @@ def ploar2xyz(df):
 
 
 def isdeg(angle):
+    '''convert the degree into radian if the given data is in degree'''
     if max(angle) > 1.57079028204:
         return angle*np.pi/180
     return angle
@@ -150,8 +151,7 @@ def sep_algo(filter_data, test, thershold_wall_min, thershold_wall_max,eps_entry
             target_detected.append('r')
             right_target_rcs.append(right_target_data['power'].mean())
             right_point.append(len(right_target_data))
-            color_list = (
-                ["r" if label == 0 else "k" for label in right_target_labels])
+            color_list = (["r" if label == 0 else "k" for label in right_target_labels])
             j = 0
             for row in range(len(frame)):
                 if frame.loc[row, 'labels'] == 'r':
@@ -167,8 +167,7 @@ def sep_algo(filter_data, test, thershold_wall_min, thershold_wall_max,eps_entry
             target_detected.append('l')
             left_target_rcs.append(left_target_data['power'].mean())
             left_point.append(len(left_target_data))
-            color_list = (
-                ["b" if label == 0 else "k" for label in left_target_labels])
+            color_list = (["b" if label == 0 else "k" for label in left_target_labels])
             j = 0
             for row in range(len(frame)):
                 if frame.loc[row, 'labels'] == 'l':
@@ -190,8 +189,7 @@ def sep_algo(filter_data, test, thershold_wall_min, thershold_wall_max,eps_entry
             target_detected.append('c')
             mean_pose_rcs.append(mean_pose_data['power'].mean())
             mean_pose_point.append(len(mean_pose_data))
-            color_list = (
-                ["g" if label == 0 else "k" for label in mean_pose_labels])
+            color_list = (["g" if label == 0 else "k" for label in mean_pose_labels])
             j = 0
             for row in range(len(frame)):
                 if frame.loc[row, 'labels'] == 'c':
