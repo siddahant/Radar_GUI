@@ -1,4 +1,3 @@
-python 
 tkinter
 matplotlib
 pandas
