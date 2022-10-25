@@ -114,7 +114,7 @@ def plot_point_stat(timestamp, l_point, r_point, c_point):
 
 def plot_sep_info(timestamp, azimuth_sepration):
     fig, ax1 = plt.subplots(figsize=(4, 3))
-    line = ax1.bar(timestamp, azimuth_sepration, edgecolor='black')
+    line = ax1.bar(timestamp, azimuth_sepration)
     ax1.set_ylabel('Sepration Angle')
     ax1.set_xlabel('Frame Number')
     fig.tight_layout()
